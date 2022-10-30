@@ -2,9 +2,13 @@ const Header = ({course}) => {
   return (<h1>{course}</h1>)
 }
 
+const Part = ({part, exercise}) => {
+  return <p>{part} {exercise}</p>
+}
+
 const Content = ({content})=> {
-  return content.map(v => {
-    return <p>{`${v[0]} ${v[1]}`}</p>
+  return content.map(([part, exercise]) => {
+    return <Part part={part} exercise={exercise}/>
   })
 }
 
