@@ -13,8 +13,10 @@ const Button = ({children, onClick}) => {
 }
 
 const Statistic = ({title, number, unit}) => {
-  return <div>{title} : {number ? number : 0}{unit ? unit : ''}</div>
-
+  return (<tr>
+     <td>{title}</td>
+     <td>{number ? number : 0}{unit ? unit : ''}</td>
+    </tr>)
 }
    
 const App = () => {
@@ -34,23 +36,23 @@ const App = () => {
   }
 
   return (
-    <div>
+    <>
       <Header1 header={'give feedback'}/>
       <Button onClick={() => handleClick(setGood)}>good</Button>
       <Button onClick={() => handleClick(setNeutral)}>neutral</Button>
       <Button onClick={() => handleClick(setBad)}>bad</Button>
       <Header2 header={'statistics'}/>
       {good || neutral || bad ?
-      <>
+      <table>
       <Statistic title={'good'} number={good}/>
       <Statistic title={'neutral'} number={neutral}/>
       <Statistic title={'bad'} number={bad}/>
       <Statistic title={'all'} number={stats.all}/>
       <Statistic title={'average'} number={stats.average()}/>
       <Statistic title={'positive'} number={stats.positive()} unit={'%'}/>
-      </>
+      </table>
       : 'No feedback given'}
-    </div>
+    </>
   )
 }
 
