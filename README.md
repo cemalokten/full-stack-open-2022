@@ -7,6 +7,6 @@ Learn React, Redux, Node.js, MongoDB, GraphQL and TypeScript in one go! This cou
 **Link** : [Full Stack Open 2022](https://fullstackopen.com)
 
 #### Statistics
-- Part 1 - 3hr
-- Part 2 - 4.5hrs (so far)
+- Part 0 - 3hr
+- Part 1 - 4.5hrs (so far)
 
