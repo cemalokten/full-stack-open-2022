@@ -44,12 +44,14 @@ const App = () => {
       <Header2 header={'statistics'}/>
       {good || neutral || bad ?
       <table>
+        <tbody>
       <Statistic title={'good'} number={good}/>
       <Statistic title={'neutral'} number={neutral}/>
       <Statistic title={'bad'} number={bad}/>
       <Statistic title={'all'} number={stats.all}/>
       <Statistic title={'average'} number={stats.average()}/>
       <Statistic title={'positive'} number={stats.positive()} unit={'%'}/>
+        </tbody>
       </table>
       : 'No feedback given'}
     </>
