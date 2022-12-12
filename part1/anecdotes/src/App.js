@@ -22,15 +22,33 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
-   
+
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState({0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0})
+
+    const updateVotes = (index) => {
+        const newVotes = { ...votes, [index]: votes[index] + 1}
+        setVotes(newVotes)
+    }
+    const getAnecdoteWithMostVotes = () => {
+       const highestVote = Math.max(...Object.values(votes))
+       return Object.keys(votes).filter((key)=> votes[key] === highestVote )
+    }
+
+    const mostVoteIndex = getAnecdoteWithMostVotes()
 
   return (
     <div>
+        <h1>Anecdote of the day</h1>
       <Anecdote>
       {anecdotes[selected]}
       </Anecdote>
+      <Button handleClick={()=>updateVotes(selected)}>vote</Button>
       <Button handleClick={() => generateRandomAnecdote(setSelected, anecdotes)}>Next anecdote</Button>
+        <h1>Anecdote with most votes</h1>
+        <Anecdote>
+            {anecdotes[mostVoteIndex[0]]}
+        </Anecdote>
     </div>
   )
 }
