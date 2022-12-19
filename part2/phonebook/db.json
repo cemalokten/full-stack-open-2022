@@ -1,74 +1,34 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "5242323423",
+      "name": "Ada Lovelace",
+      "number": "39-44-5323523",
       "id": 1
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
+      "name": "Cemal",
+      "number": "01223 412999",
       "id": 2
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
+      "name": "Jess",
+      "number": "07098292922",
       "id": 3
     },
     {
-      "name": "daa",
-      "number": "dda",
+      "name": "Bobby",
+      "number": "0711923123",
+      "id": 4
+    },
+    {
+      "name": "Charlotte",
+      "number": "09123123832",
       "id": 5
     },
     {
-      "name": "23523523",
-      "number": "354235",
-      "id": 8
-    },
-    {
-      "name": "dd2352",
-      "number": "222",
-      "id": 9
-    },
-    {
-      "name": "try",
-      "number": "123123123",
-      "id": 10
-    },
-    {
-      "name": "fdgdfg",
-      "number": "123123",
-      "id": 11
-    },
-    {
-      "name": "some",
-      "number": "124124124",
-      "id": 12
-    },
-    {
-      "name": "hey",
-      "number": "132525235",
-      "id": 13
-    },
-    {
-      "name": "oppss",
-      "number": "222",
-      "id": 14
-    },
-    {
-      "name": "asdas425253235235",
-      "number": "111",
-      "id": 15
-    },
-    {
-      "name": "a",
-      "number": "a",
-      "id": 16
-    },
-    {
-      "name": "",
-      "number": "",
-      "id": 17
+      "name": "Veronica",
+      "number": "1231230033",
+      "id": 6
     }
   ]
 }
