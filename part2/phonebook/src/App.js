@@ -44,10 +44,12 @@ const App = () => {
   const deletePerson = async (id, name) => {
     try {
       const { data, error } = await Services.deletePerson(id);
+      console.log(data)
       if (error) {
         throw new Error(error);
       }
       setNewPerson({ data })
+      setNotification({message: `The entry for ${name} has been deleted from the server`, type: 'notification'})
     } catch (error) {
       setNotification({message: `The entry for ${name} has already been deleted from the server`, type: 'error'})
       setTimeout(()=> setNotification(null), 5000)
