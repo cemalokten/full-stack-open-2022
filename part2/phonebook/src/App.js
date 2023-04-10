@@ -80,7 +80,7 @@ const App = () => {
   }
 
   const filteredPersons = allPersons?.filter(({ name }) => {
-    return name.toLowerCase().includes(search.toLowerCase())
+    return name ? name.toLowerCase().includes(search.toLowerCase()) : 'n/a'
   })
 
 
