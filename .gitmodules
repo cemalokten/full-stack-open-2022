@@ -1,0 +1,3 @@
+[submodule "part3"]
+	path = part3
+	url = https://github.com/cemalokten/full-stack-open-2022-part3
