@@ -82,9 +82,11 @@ const App = () => {
     return allPersons.filter((c) => c.name === person.name)[0];
   };
 
-  const filteredPersons = allPersons?.filter(({ name }) => {
-    return name ? name.toLowerCase().includes(search.toLowerCase()) : "n/a";
-  });
+  const filteredPersons = allPersons
+    ? allPersons.filter(({ name }) =>
+        name ? name.toLowerCase().includes(search.toLowerCase()) : "n/a"
+      )
+    : [];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
