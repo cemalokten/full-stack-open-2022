@@ -1,0 +1,24 @@
+{
+  "name": "blog-list",
+  "version": "1.0.0",
+  "description": "Part4 of Full Stack Open",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.1.0",
+    "nodemon": "^2.0.22"
+  },
+  "contentSecurityPolicy": {
+    "default-src": [
+      "'self'"
+    ]
+  }
+}
