@@ -222,3 +222,63 @@ describe('Total authors', () => {
     expect(res).toEqual(exp1 || exp2)
   });
 });
+
+describe('Author with the most likes', () => {
+  const listOfBlogsWithMultipleAuthors = [
+  {
+    title: 'My First Week as a Junior Developer',
+    author: 'Jane Smith',
+    likes: 10,
+  },
+  {
+    title: 'Learning to Code: My Journey',
+    author: 'Jane Smith',
+    likes: 10,
+  },
+  {
+    title: 'Debugging Tips for Junior Developers',
+    author: 'Jane Smith',
+    likes: 10,
+  },
+  {
+    title: 'A Day in the Life of a Software Engineer',
+    author: 'Jane Smith',
+    likes: 15,
+  },
+  {
+    title: 'Understanding JavaScript Closures',
+    author: 'John Doe',
+    likes: 20,
+  },
+  {
+    title: 'Top 10 Programming Languages to Learn in 2023',
+    author: 'Alice Johnson',
+    likes: 25,
+  },
+  {
+    title: 'How to Get Started with Web Development',
+    author: 'Alice Johnson',
+    likes: 30,
+  },
+  {
+    title: 'CSS Grid vs Flexbox: Which One to Choose?',
+    author: 'Bob Brown',
+    likes: 35,
+  },
+  {
+    title: 'The Art of Writing Clean Code',
+    author: 'Bob Brown',
+    likes: 40,
+  }
+];
+
+  const resA = {
+    author: 'Bob Brown',
+    likes: 75
+  }
+
+  test('is Jane Smith', () => {
+    const result = listHelper.mostLikes(listOfBlogsWithMultipleAuthors)
+    expect(result).toEqual(resA)
+  })
+})
