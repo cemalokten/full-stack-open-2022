@@ -4,12 +4,15 @@ const blogSchema = new mongoose.Schema({
   title: { type: String, required: true },
   url: { type: String, required: true },
   author: String,
-  likes: Number
+  likes: Number,
+  user: {  type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 })
 
 blogSchema.set('toJSON', {
   transform: (_, object) => {
     object.id = object._id.toJSON()
+    delete object._id
+    delete object.__v
   }
 })
 
