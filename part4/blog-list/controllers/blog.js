@@ -1,31 +1,43 @@
-const blog = require('express').Router()
-const Blog = require('../models/blog')
+/* eslint-disable prefer-destructuring */
+/* eslint-disable consistent-return */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-shadow */
+const blog = require('express').Router();
+const { Blog } = require('../models');
 
 blog.get('/', async (request, response) => {
-  const { limit } = request.query
-  const blogs = await Blog.find({}).limit(limit)
-  response.json(blogs.map(blog => blog.toJSON()))
-})
+  const { limit } = request.query;
+  const blogs = await Blog.find({}).limit(limit);
+  response.json(blogs.map((blog) => blog.toJSON()));
+});
 
 blog.post('/', async (request, response) => {
-  if (!request.body.title || !request.body.url) response.status(400).end()
-  const blog = new Blog(request.body)
-  const result = await blog.save()
-  response.status(201).json(result)
-})
+  const { body } = request;
+  if (!body.title || !body.url) response.status(400).end();
+
+  const user = request.user;
+
+  const blog = new Blog({ title: body.title, url: body.url, userId: user._id });
+  const savedBlog = await blog.save();
+  user.blogs = user.blogs.concat(savedBlog._id);
+  await user.save();
+
+  response.status(201).json(savedBlog);
+});
 
 blog.delete('/delete/:id', async (request, response) => {
-  const _id = request.params?.id
-  await Blog.deleteOne({_id})
-  response.status(201).end()
-})
+  const id = request.params?.id;
+
+  await Blog.deleteOne({ _id: id });
+
+  response.status(201).end();
+});
 
 blog.patch('/update/:id', async (request, response) => {
   // Get id
-  const _id = request.params?.id
-  await Blog.updateOne({_id}, request.body)
-  response.status(201).end()
-})
-
+  const _id = request.params?.id;
+  await Blog.updateOne({ _id }, request.body);
+  response.status(201).end();
+});
 
 module.exports = blog;

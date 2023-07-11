@@ -1,16 +1,21 @@
 const express = require('express');
-require('express-async-errors')
-const cors = require('cors')
-const connectDB = require('./utils/connect')
-const blog = require('./controllers/blog')
-const users = require('./controllers/users')
-const app = express()
+const cors = require('cors');
+const connectDB = require('./utils/connect');
+const blog = require('./controllers/blog');
+const users = require('./controllers/users');
+const login = require('./controllers/login');
+const { decryptToken, userExtractor } = require('./utils/middleware');
 
-connectDB()
+connectDB();
 
-app.use(cors())
-app.use(express.json())
-app.use('/api/blogs', blog)
-app.use('/api/users', users)
+const app = express();
 
-module.exports = app
+app.use(decryptToken);
+
+app.use(cors());
+app.use(express.json());
+app.use('/api/blogs', userExtractor, blog);
+app.use('/api/users', users);
+app.use('/api/login', login);
+
+module.exports = app;
