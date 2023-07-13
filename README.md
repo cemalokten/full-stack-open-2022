@@ -8,6 +8,8 @@ Learn React, Redux, Node.js, MongoDB, GraphQL and TypeScript in one go! This cou
 
 #### Statistics
 - Part 0 - 3hr
-- Part 1 - 6hrs
-- Part 2 - 9hrs (so far)
+- Part 1 - 8hrs
+- Part 2 - 9hrs
+- Part 3 - 16hrs
+- Part 4 - 25hrs
 
