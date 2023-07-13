@@ -3,7 +3,9 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-shadow */
 const blog = require('express').Router();
+const { mongoose } = require('mongoose');
 const { Blog } = require('../models');
+const { decryptToken, userExtractor } = require('../utils/middleware');
 
 blog.get('/', async (request, response) => {
   const { limit } = request.query;
@@ -11,21 +13,28 @@ blog.get('/', async (request, response) => {
   response.json(blogs.map((blog) => blog.toJSON()));
 });
 
-blog.post('/', async (request, response) => {
+blog.post('/', decryptToken, userExtractor, async (request, response) => {
   const { body } = request;
-  if (!body.title || !body.url) response.status(400).end();
 
   const user = request.user;
 
   const blog = new Blog({ title: body.title, url: body.url, userId: user._id });
-  const savedBlog = await blog.save();
-  user.blogs = user.blogs.concat(savedBlog._id);
-  await user.save();
 
-  response.status(201).json(savedBlog);
+  try {
+    const savedBlog = await blog.save();
+    user.blogs = user.blogs.concat(savedBlog._id);
+    await user.save();
+    response.status(201).json(savedBlog);
+  } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      response.status(400).json('Required fields are missing');
+    } else {
+      response.status(500).json({ error: 'An internal error occurred' });
+    }
+  }
 });
 
-blog.delete('/delete/:id', async (request, response) => {
+blog.delete('/delete/:id', decryptToken, userExtractor, async (request, response) => {
   const id = request.params?.id;
 
   await Blog.deleteOne({ _id: id });

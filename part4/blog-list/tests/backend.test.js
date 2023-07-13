@@ -1,8 +1,16 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
 // const mongoose = require('mongoose');
 const supertest = require('supertest');
+const jwt = require('jsonwebtoken');
+const User = require('../models/users');
+const Blog = require('../models/blog');
 const app = require('../app');
 
 const api = supertest(app);
+
+let token;
+let postID;
 
 describe('GET a selection of blogs posts', () => {
   test('where the length equals 3', async () => {
@@ -17,6 +25,17 @@ describe('GET a selection of blogs posts', () => {
 });
 
 describe('POST a blog to the database', () => {
+  beforeEach(async () => {
+    const user = await User.findOne({ username: 'BobbyTest' });
+
+    const tokenContent = {
+      username: user.username,
+      id: user._id,
+    };
+
+    token = jwt.sign(tokenContent, process.env.JWT_SECRET);
+  });
+
   const post = {
     title: 'New post',
     author: 'Cemal',
@@ -26,7 +45,7 @@ describe('POST a blog to the database', () => {
 
   test('should add 1 to the total number of blogs', async () => {
     const before = await api.get('/api/blogs');
-    await api.post('/api/blogs').send(post);
+    await api.post('/api/blogs').send(post).set('authorization', `bearer ${token}`);
     const after = await api.get('/api/blogs');
     expect(after.body.length).toEqual(before.body.length + 1);
   });
@@ -35,11 +54,11 @@ describe('POST a blog to the database', () => {
     title: 'A post',
     author: 'Bobby',
     url: 'www.example.com',
-    likes: 0,
   };
 
   test('without any likes it will default to 0', async () => {
-    const res = await api.post('/api/blogs').send(postWithoutLikes);
+    const res = await api.post('/api/blogs').send(postWithoutLikes).set('authorization', `bearer ${token}`);
+    postID = res.body.id;
     expect(res.body.likes).toEqual(0);
   });
 
@@ -49,7 +68,7 @@ describe('POST a blog to the database', () => {
   };
 
   test('without title or url returns 400 bad request', async () => {
-    const res = await api.post('/api/blogs').send(postWithoutTitleOrUrl);
+    const res = await api.post('/api/blogs').send(postWithoutTitleOrUrl).set('authorization', `bearer ${token}`);
     expect(res.statusCode).toBe(400);
   });
 });
@@ -57,8 +76,7 @@ describe('POST a blog to the database', () => {
 describe('DELETE a post from the database', () => {
   test('and expect there to be one less post in the database', async () => {
     const before = await api.get('/api/blogs');
-    const { id } = before.body[0];
-    await api.del(`/api/blogs/delete/${id}`);
+    await api.del(`/api/blogs/delete/${postID}`).set('authorization', `bearer ${token}`);
     const res = await api.get('/api/blogs');
     expect(res.body.length).toBe(before.body.length - 1);
   });
@@ -66,11 +84,9 @@ describe('DELETE a post from the database', () => {
 
 describe('UPDATE a post from the database', () => {
   test('and expect likes to increase by 1 for the most recent entry', async () => {
-    const resA = await api.get('/api/blogs');
-    const { id, likes } = resA.body[0];
-    await api.patch(`/api/blogs/update/${id}`).send({ likes: likes + 1 });
-    const resB = await api.get('/api/blogs');
-    const { likes: likesAfterUpdate } = resB.body[0];
-    expect(likesAfterUpdate).toBe(likes + 1);
+    const post = await Blog.findOne({ title: 'New post' });
+    await api.patch(`/api/blogs/update/${post._id}`).send({ likes: post.likes + 1 });
+    const postAfterUpdate = await Blog.findOne({ title: 'New post' });
+    expect(postAfterUpdate.likes).toBe(post.likes + 1);
   });
 });
