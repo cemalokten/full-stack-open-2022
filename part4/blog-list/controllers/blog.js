@@ -18,7 +18,9 @@ blog.post('/', decryptToken, userExtractor, async (request, response) => {
 
   const user = request.user;
 
-  const blog = new Blog({ title: body.title, url: body.url, userId: user._id });
+  const blog = new Blog({
+    title: body.title, url: body.url, author: body.author, userId: user._id,
+  });
 
   try {
     const savedBlog = await blog.save();
@@ -36,14 +38,11 @@ blog.post('/', decryptToken, userExtractor, async (request, response) => {
 
 blog.delete('/delete/:id', decryptToken, userExtractor, async (request, response) => {
   const id = request.params?.id;
-
   await Blog.deleteOne({ _id: id });
-
   response.status(201).end();
 });
 
 blog.patch('/update/:id', async (request, response) => {
-  // Get id
   const _id = request.params?.id;
   await Blog.updateOne({ _id }, request.body);
   response.status(201).end();

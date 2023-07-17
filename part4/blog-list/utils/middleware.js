@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
 const decryptToken = (request, _, next) => {
-  const authorization = request.get('authorization');
-  if (authorization && authorization.startsWith('bearer')) {
-    request.token = authorization.replace('bearer ', '');
+  const authorization = request.get('Authorization');
+  if (authorization && authorization.startsWith('Bearer')) {
+    request.token = authorization.replace('Bearer ', '');
   }
   next();
 };
